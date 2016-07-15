@@ -6,7 +6,7 @@
 <div class="row">
   <div class="col-md-12">
     <ul class="list-group">
-      <app-house-item [project]="homeProject" (click)="onSelected(homeProject)"></app-house-item>
+      <app-house-item *ngFor="let house of houses" [house]="house" (click)="onSelected(house)"></app-house-item>
     </ul>
   </div>
 </div>

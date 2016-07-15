@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HouseListComponent} from "./house-list";
 import {HouseDetailComponent} from "./house-detail/house-detail.component";
-import {HomeProject} from "../shared/home-project";
+import {House} from "../shared/house";
 
 @Component({
   moduleId: module.id,
@@ -10,11 +10,10 @@ import {HomeProject} from "../shared/home-project";
   directives: [HouseListComponent, HouseDetailComponent]
 })
 export class ControlPanelComponent implements OnInit {
-  selectedProject: HomeProject;
+  selectedHouse: House;
 
   constructor() {}
 
   ngOnInit() {
   }
-
 }

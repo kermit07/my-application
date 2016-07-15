@@ -1,6 +1,6 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {HouseItemComponent} from "./house-item.component";
-import {HomeProject} from "../../shared/home-project";
+import {House} from "../../shared/house";
 
 @Component({
   moduleId: module.id,
@@ -9,17 +9,21 @@ import {HomeProject} from "../../shared/home-project";
   directives: [HouseItemComponent]
 })
 export class HouseListComponent implements OnInit {
-  homeProjects:HomeProject[] = [];
-  @Output() projectSelected = new EventEmitter<HomeProject>()
-  homeProject = new HomeProject('Project 1', 'Maciek', 'https://www.uktights.com/tightsimages/products/normal/gi_OTK-Double-Stripe-Tights.jpg');
+  houses:House[] = [
+    new House('Project 1', 'Maciek', 'https://www.uktights.com/tightsimages/products/normal/gi_OTK-Double-Stripe-Tights.jpg', []),
+    new House('Project 2', 'Ja', 'http://thumbs.ebaystatic.com/images/g/wl0AAOSwbwlXBlQu/s-l225.jpg', []),
+    new House('Project 3', 'Mistrz', 'https://www.uktights.com/tightsimages/products/normal/pm_Floral-Suspender-Tights.jpg', [])
+  ];
+  @Output() selectedHouse = new EventEmitter<House>()
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
-  onSelected(homeProject: HomeProject) {
-    this.projectSelected.emit(homeProject);
+  onSelected(house:House) {
+    this.selectedHouse.emit(house);
   }
 
 }

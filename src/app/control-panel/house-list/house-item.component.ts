@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {HomeProject} from "../../shared/home-project";
+import {House} from "../../shared/house";
 
 @Component({
   moduleId: module.id,
@@ -7,7 +7,7 @@ import {HomeProject} from "../../shared/home-project";
   templateUrl: 'house-item.component.html'
 })
 export class HouseItemComponent implements OnInit {
-  @Input() project: HomeProject;
+  @Input() house: House;
   projectId: number;
 
   constructor() {}
