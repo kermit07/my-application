@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   moduleId: module.id,
-  selector: 'my-header',
+  selector: 'app-header',
   templateUrl: 'header.component.html'
 })
 export class HeaderComponent {
