@@ -1,12 +1,12 @@
 <div class="row">
   <div class="col-md-12">
-    <a class="btn btn-success">Dodaj projekt</a>
+    <a class="btn btn-success" [routerLink]="['new']">Dodaj projekt</a>
   </div>
 </div>
 <div class="row">
   <div class="col-md-12">
     <ul class="list-group">
-      <app-house-item *ngFor="let house of houses" [house]="house" (click)="onSelected(house)"></app-house-item>
+      <app-house-item *ngFor="let house of houses; let i = index" [house]="house" [houseIndex]="i"></app-house-item>
     </ul>
   </div>
 </div>

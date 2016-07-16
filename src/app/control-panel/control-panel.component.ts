@@ -1,19 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ROUTER_DIRECTIVES} from "@angular/router";
+
 import {HouseListComponent} from "./house-list";
-import {HouseDetailComponent} from "./house-detail/house-detail.component";
-import {House} from "../shared/house";
 
 @Component({
   moduleId: module.id,
   selector: 'app-control-panel',
   templateUrl: 'control-panel.component.html',
-  directives: [HouseListComponent, HouseDetailComponent]
+  directives: [HouseListComponent, ROUTER_DIRECTIVES]
 })
-export class ControlPanelComponent implements OnInit {
-  selectedHouse: House;
+export class ControlPanelComponent {
 
-  constructor() {}
-
-  ngOnInit() {
-  }
 }

@@ -1,5 +1,12 @@
 <div class="row">
   <div class="col-xs-12">
+    <button class="btn btn-primary" (click)="onEdit()">Edytuj</button>
+    <button class="btn btn-danger" (click)="onDelete()">Usuń</button>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-xs-12">
     <img src="{{selectedHouse?.imagePath}}" alt="" class="img-responsive" style="height: 250px;">
   </div>
 </div>
