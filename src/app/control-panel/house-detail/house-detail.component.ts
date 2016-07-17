@@ -4,11 +4,13 @@ import {Subscription} from "rxjs/Rx";
 
 import {House} from "../../shared/house";
 import {ControlPanelService} from "../control-panel.service";
+import {TempSensorListComponent} from "./temp-sensor-list.component";
 
 @Component({
   moduleId: module.id,
   selector: 'app-house-detail',
-  templateUrl: 'house-detail.component.html'
+  templateUrl: 'house-detail.component.html',
+  directives: [TempSensorListComponent]
 })
 export class HouseDetailComponent implements OnInit, OnDestroy {
   selectedHouse:House;

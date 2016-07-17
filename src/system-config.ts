@@ -43,6 +43,7 @@ const barrels: string[] = [
   'app/control-panel/house-detail',
   'app/visualization',
   'app/control-panel/house-edit',
+  'app/control-panel/house-detail/temp-sensor-list',
   /** @cli-barrel */
 ];
 

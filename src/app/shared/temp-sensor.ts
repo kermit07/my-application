@@ -1,4 +1,4 @@
 export class TempSensor {
-  constructor(value:number) {
+  constructor(public value:number, public xPos:number, public yPos:number, public zPos:number) {
   };
 }

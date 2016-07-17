@@ -23,4 +23,12 @@ export class ControlPanelService {
   deleteHouse(house:House) {
     this.houses.splice(this.houses.indexOf(house), 1);
   }
+
+  addHouse(house:House) {
+    this.houses.push(house);
+  }
+
+  editHouse(oldHouse:House, newHouse:House) {
+    this.houses[this.houses.indexOf(oldHouse)] = newHouse;
+  }
 }
