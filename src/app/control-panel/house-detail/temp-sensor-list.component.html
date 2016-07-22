@@ -1,0 +1,10 @@
+<div class="row">
+  <div class="col-md-12">
+    <ul class="list-group">
+      <div *ngIf="tempSensors.length === 0">
+        <h3>Brak zarejestrowanych czujników!</h3>
+      </div>
+      <app-temp-sensor-item *ngFor="let item of tempSensors; let i = index" [tempSensor]="item" [index]="i"></app-temp-sensor-item>
+    </ul>
+  </div>
+</div>

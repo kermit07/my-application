@@ -5,6 +5,7 @@ import {Subscription} from "rxjs/Rx";
 import {House} from "../../shared/house";
 import {ControlPanelService} from "../control-panel.service";
 import {TempSensorListComponent} from "./temp-sensor-list.component";
+import {TempSensor} from "../../shared/temp-sensor";
 
 @Component({
   moduleId: module.id,
@@ -13,7 +14,7 @@ import {TempSensorListComponent} from "./temp-sensor-list.component";
   directives: [TempSensorListComponent]
 })
 export class HouseDetailComponent implements OnInit, OnDestroy {
-  selectedHouse:House;
+  private selectedHouse:House;
   private houseIndex:number;
   private subsribtion:Subscription;
 
@@ -42,5 +43,9 @@ export class HouseDetailComponent implements OnInit, OnDestroy {
   onDelete() {
     this.controlPanelService.deleteHouse(this.selectedHouse);
     this.router.navigate(['/control-panel']);
+  }
+
+  onAddSensor() {
+    this.selectedHouse.tempSensors.push(new TempSensor(20, 0, 0, 0));
   }
 }

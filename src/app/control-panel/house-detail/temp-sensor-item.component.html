@@ -1,0 +1,52 @@
+<div class="list-group-item clearfix">
+  <div class="row">
+    <div class="col-xs-10">
+      <div class=" input-group" style="width: 100%;">
+        <span class="input-group-addon" id="basic-addon1">Temperatura</span>
+        <input type="text" class="form-control" aria-label="..." [(ngModel)]="tempSensor.value">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default" (click)="onMinusTemp()">-</button>
+          <button type="button" class="btn btn-default" (click)="onPlusTemp()">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <button><span class="glyphicon glyphicon-trash" aria-hidden="true" (click)="onDelete()"></span></button>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-xs-4">
+      <span class="input-group-addon" id="basic-addon1">X</span>
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default" (click)="onMinusXPos()">-</button>
+        <button type="button" class="btn btn-default" (click)="onPlusXPos()">+</button>
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <span class="input-group-addon" id="basic-addon1">Y</span>
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default" (click)="onMinusYPos()">-</button>
+        <button type="button" class="btn btn-default" (click)="onPlusYPos()">+</button>
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <span class="input-group-addon" id="basic-addon1">Z</span>
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default" (click)="onMinusZPos()">-</button>
+        <button type="button" class="btn btn-default" (click)="onPlusZPos()">+</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-4">
+      <input type="text" class="form-control text-center" aria-label="..." [(ngModel)]="tempSensor.xPos">
+    </div>
+    <div class="col-xs-4">
+      <input type="text" class="form-control text-center" aria-label="..." [(ngModel)]="tempSensor.yPos">
+    </div>
+    <div class="col-xs-4">
+      <input type="text" class="form-control text-center" aria-label="..." [(ngModel)]="tempSensor.zPos">
+    </div>
+  </div>
+</div>
