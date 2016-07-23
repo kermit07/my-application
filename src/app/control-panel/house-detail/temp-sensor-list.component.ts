@@ -5,6 +5,7 @@ import {Subscription} from "rxjs/Rx";
 import {TempSensorItemComponent} from "./temp-sensor-item.component";
 import {ControlPanelService} from "../control-panel.service";
 import {TempSensor} from "../../shared/temp-sensor";
+import {House} from "../../shared/house";
 
 @Component({
   moduleId: module.id,
@@ -26,7 +27,11 @@ export class TempSensorListComponent implements OnInit, OnDestroy {
       (params:any) => {
         if (params.hasOwnProperty('id')) {
           this.houseIndex = +params['id'];
-          this.tempSensors = this.service.getHouse(this.houseIndex).tempSensors;
+          let xxx = this.service.getHouse(this.houseIndex);
+          if(xxx.hasOwnProperty('tempSensors')) // TODO
+            this.tempSensors = xxx.tempSensors;
+          else
+            this.tempSensors = [];//this.service.getHouse(this.houseIndex).tempSensors;
         } else {
           this.tempSensors = null;
         }

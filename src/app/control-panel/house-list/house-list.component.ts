@@ -19,6 +19,9 @@ export class HouseListComponent implements OnInit {
 
   ngOnInit() {
     this.houses = this.controlPanelService.getHouses();
+    this.controlPanelService.housesChange.subscribe(
+      (houses: House[]) => this.houses = houses
+    );
   }
 
 }

@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {DropdownDirective} from "./dropdown.directive";
 
+import {ControlPanelService} from "./control-panel/control-panel.service";
+
 @Component({
   moduleId: module.id,
   selector: 'app-header',
@@ -9,4 +11,18 @@ import {DropdownDirective} from "./dropdown.directive";
   directives: [DropdownDirective, ROUTER_DIRECTIVES]
 })
 export class HeaderComponent {
+
+  constructor(private service: ControlPanelService) {};
+
+  onStore() {
+    this.service.storeData().subscribe(
+      data => console.log(data),
+      error => console.log(error)
+    );
+  }
+
+  onFetch() {
+    this.service.fetchData();
+  }
+
 }
