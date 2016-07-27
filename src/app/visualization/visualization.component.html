@@ -1,3 +1,22 @@
-<p>
-  visualization works!
-</p>
+<app-modifier [container]="container" [panel]="panel"></app-modifier>
+
+<div id='webGL-panel' #panel>
+  <div id="blocker">
+
+    <div id="instructions">
+      <span style="font-size:40px">Kliknij aby włączyć</span><br/>
+      &#8593;, &#8595;, &#8592;, &#8594; (W, S, A, D) - Ruch<br/>
+      MYSZ - Rozglądanie się
+    </div>
+
+  </div>
+
+  <div id="info-window">
+    X: <span id="x-position">0</span><br/>
+    Y: <span id="y-position">0</span><br/>
+    Z: <span id="z-position">0</span><br/>
+  </div>
+  <div id="webGL-container" #container>
+  </div>
+
+</div>
