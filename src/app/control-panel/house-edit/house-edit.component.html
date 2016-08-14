@@ -1,58 +1,26 @@
 <hr>
 <div class="row">
-  <div class="col-xs-12">
-    <form [formGroup]="houseForm" (ngSubmit)="onSubmit()">
-      <div class="row">
-        <div class="col-xs-12">
-          <button type="submit" class="btn btn-success" [disabled]="!houseForm.valid">Zapisz</button>
-          <a class="btn btn-danger" (click)="onCancel()">Anuluj</a>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="name">Nazwa</label>
-            <input
-              type="text"
-              id="name"
-              class="form-control"
-              formControlName="name">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="owner">Właściciel</label>
-            <input
-              type="text"
-              id="owner"
-              class="form-control"
-              formControlName="owner">
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="image-url">Zdjęcie</label>
-            <input
-              type="text"
-              id="image-url"
-              class="form-control"
-              formControlName="imagePath"
-              #imagePath>
-          </div>
-        </div>
-      </div>
-    </form>
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="img">
-          <img [src]="imagePath.value" style="width: 100%;">
-        </div>
-      </div>
+  <form [formGroup]="houseForm" (ngSubmit)="onSubmit()">
+    <div class="row col-xs-12">
+      <button type="submit" class="btn btn-success" [disabled]="!houseForm.valid">Zapisz</button>
+      <button class="btn btn-danger" (click)="onCancel()">Anuluj</button>
     </div>
+    <br>
+    <br>
+    <div class="row col-xs-12 form-group">
+      <label for="name">Nazwa</label>
+      <input type="text" id="name" class="form-control" formControlName="name">
+    </div>
+    <div class="row col-xs-12 form-group">
+      <label for="owner">Właściciel</label>
+      <input type="text" id="owner" class="form-control" formControlName="owner">
+    </div>
+    <div class="row col-xs-12 form-group">
+      <label for="image-url">Zdjęcie</label>
+      <input type="text" id="image-url" class="form-control" formControlName="imagePath" #imagePath>
+    </div>
+  </form>
+  <div class="row col-xs-12 img">
+    <img [src]="imagePath.value" style="width: 100%;">
   </div>
-  <hr>
 </div>
