@@ -9,6 +9,8 @@ import {TempSensor} from "../../shared/temp-sensor";
 import {LightListComponent} from "./light-list.component";
 import {Light} from "../../shared/light";
 
+enum ElemType {TempSensor, Light}
+
 @Component({
   moduleId: module.id,
   selector: 'app-house-detail',
@@ -19,6 +21,9 @@ export class HouseDetailComponent implements OnInit, OnDestroy {
   private selectedHouse:House;
   private houseIndex:number;
   private subsribtion:Subscription;
+  private types = ElemType;                    // let to work switch correctly
+  private elemType: ElemType = ElemType.TempSensor;   // real type
+
 
   constructor(private router:Router,
               private route:ActivatedRoute,
@@ -43,15 +48,7 @@ export class HouseDetailComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.controlPanelService.deleteHouse(this.selectedHouse);
+    this.controlPanelService.deleteHouse(this.houseIndex);
     this.router.navigate(['/control-panel']);
-  }
-
-  onAddSensor() {
-    this.selectedHouse.tempSensors.push(new TempSensor(20, 0, 0, 0));
-  }
-
-  onAddLight() {
-    this.selectedHouse.lights.push(new Light(this.controlPanelService.getLightKinds()[0], 0, 0, 0));
   }
 }

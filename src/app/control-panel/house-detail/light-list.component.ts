@@ -42,4 +42,8 @@ export class LightListComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  onAddLight() {
+    this.lights.push(new Light(this.service.getLightKinds()[0], 0, 0, 0));
+  }
+
 }

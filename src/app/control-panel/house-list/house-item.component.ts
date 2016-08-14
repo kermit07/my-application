@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ROUTER_DIRECTIVES} from "@angular/router";
 
 import {House} from "../../shared/house";
@@ -9,13 +9,7 @@ import {House} from "../../shared/house";
   templateUrl: 'house-item.component.html',
   directives: [ROUTER_DIRECTIVES]
 })
-export class HouseItemComponent implements OnInit {
+export class HouseItemComponent {
   @Input() house:House;
   @Input() houseIndex:number;
-
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
-s}
+}

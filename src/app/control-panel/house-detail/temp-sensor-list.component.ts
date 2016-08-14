@@ -42,4 +42,8 @@ export class TempSensorListComponent implements OnInit, OnDestroy {
   ngOnDestroy():any {
     this.subscription.unsubscribe();
   }
+
+  onAddSensor() {
+    this.tempSensors.push(new TempSensor(20, 0, 0, 0));
+  }
 }

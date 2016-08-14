@@ -16,7 +16,7 @@ export class ControlPanelService {
   ]
 
   private houses:House[] = [
-    new House('Project 1', 'Maciek', './my-house-1.png', [
+    new House('Amelia 100', 'Jan Konieczny', './models/my-house-1.png', [
       new TempSensor(24, 1, 3, 5),
       new TempSensor(25.12, 16, 7, 4),
       new TempSensor(19.03, 5, 5, 53),
@@ -25,8 +25,8 @@ export class ControlPanelService {
       new Light(this.lightKinds[0], 2, 4, 3),
       new Light(this.lightKinds[2], 1, 4, 5)
     ]),
-    new House('Project 2', 'Ja', 'http://thumbs.ebaystatic.com/images/g/wl0AAOSwbwlXBlQu/s-l225.jpg', [], []),
-    new House('Project 3', 'Mistrz', 'https://www.uktights.com/tightsimages/products/normal/pm_Floral-Suspender-Tights.jpg', [], [])
+    new House('Zefir', 'Aneta Mazur', './models/x-project2.jpg', [], []),
+    new House('Herbert', 'Piotr Ziemkiewicz', './models/x-project3.jpg', [], [])
   ];
 
   constructor(private http:Http) {
@@ -44,8 +44,8 @@ export class ControlPanelService {
     return this.houses[houseIndex];
   }
 
-  deleteHouse(house:House):void {
-    this.houses.splice(this.houses.indexOf(house), 1);
+  deleteHouse(houseIndex:number):void {
+    this.houses.splice(houseIndex, 1);
   }
 
   addHouse(house:House):void {
@@ -61,11 +61,11 @@ export class ControlPanelService {
     const headers = new Headers({
       'Content-Type': 'application/json'
     });
-    return this.http.put('https://smart-house-data.firebaseio.com/houses.json', body, {headers: headers});
+    return this.http.put('https://smart-house-data.firebaseio.com/house.json', body, {headers: headers});
   }
 
   fetchData() {
-    return this.http.get('https://smart-house-data.firebaseio.com/houses.json')
+    return this.http.get('https://smart-house-data.firebaseio.com/house.json')
       .map((response:Response) => response.json())
       .subscribe(
         (data:House[]) => {

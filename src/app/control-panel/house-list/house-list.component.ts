@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from "@angular/core";
 import {ROUTER_DIRECTIVES} from "@angular/router";
-
 import {HouseItemComponent} from "./house-item.component";
 import {House} from "../../shared/house";
 import {ControlPanelService} from "../control-panel.service";
@@ -20,7 +19,7 @@ export class HouseListComponent implements OnInit {
   ngOnInit() {
     this.houses = this.controlPanelService.getHouses();
     this.controlPanelService.housesChange.subscribe(
-      (houses: House[]) => this.houses = houses
+      (houses:House[]) => this.houses = houses
     );
   }
 

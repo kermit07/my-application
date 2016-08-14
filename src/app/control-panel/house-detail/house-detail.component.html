@@ -1,3 +1,4 @@
+<hr>
 <div class="row">
   <div class="col-xs-5">
     <div class="row">
@@ -37,31 +38,18 @@
   </div>
 
   <div class="col-xs-7">
-    <div class="row">
-      <div class="col-xs-6">
-        <h4><span class="label label-default">Czujniki temperatur</span></h4>
-      </div>
+    <ul class="nav nav-tabs">
+      <li role="presentation" [ngClass]="{active: elemType == types.TempSensor}">
+        <a style="cursor: pointer;" (click)="elemType = types.TempSensor;">Czujniki temperatur</a>
+      </li>
+      <li role="presentation" [ngClass]="{active: elemType == types.Light}">
+        <a style="cursor: pointer;" (click)="elemType = types.Light;">Światła</a>
+      </li>
+    </ul>
 
-      <div class="col-xs-6 text-right">
-        <button class="btn btn-primary" (click)="onAddSensor()">Dodaj</button>
-        <button class="btn btn-success">Wyślij</button>
-      </div>
+    <div [ngSwitch]="elemType">
+      <app-temp-sensor-list *ngSwitchCase="types.TempSensor"></app-temp-sensor-list>
+      <app-light-list *ngSwitchCase="types.Light"></app-light-list>
     </div>
-    <app-temp-sensor-list></app-temp-sensor-list>
-
-    <br>
-
-    <div class="row">
-      <div class="col-xs-6">
-        <h4><span class="label label-default">Źródła światła</span></h4>
-      </div>
-
-      <div class="col-xs-6 text-right">
-        <button class="btn btn-primary" (click)="onAddLight()">Dodaj</button>
-        <button class="btn btn-success">Wyślij</button>
-      </div>
-    </div>
-    <app-light-list></app-light-list>
   </div>
 </div>
-<hr>
