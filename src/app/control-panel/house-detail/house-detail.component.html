@@ -1,30 +1,16 @@
-<hr>
 <div class="row">
   <div class="col-xs-5">
     <div class="row">
       <div class="col-xs-4">
         <h4><span class="label label-default">Dane podstawowe</span></h4>
       </div>
+
       <div class="col-xs-8 text-right">
         <button class="btn btn-primary" (click)="onEdit()">Edytuj</button>
         <button class="btn btn-danger" (click)="onDelete()">Usuń</button>
       </div>
     </div>
-  </div>
-  <div class="col-xs-7">
-    <div class="row">
-      <div class="col-xs-6">
-        <h4><span class="label label-default">Czujniki temperatur</span></h4>
-      </div>
-      <div class="col-xs-6 text-right">
-        <button class="btn btn-primary" (click)="onAddSensor()">Dodaj</button>
-        <button class="btn btn-success">Wyślij</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-5">
+
     <div class="row">
       <div class="col-xs-6 text-right">
         <h4><strong>Nazwa:</strong></h4>
@@ -33,6 +19,7 @@
         <h4><span>{{selectedHouse?.name}}</span></h4>
       </div>
     </div>
+
     <div class="row">
       <div class="col-xs-6 text-right">
         <h4><strong>Właściciel:</strong></h4>
@@ -41,14 +28,40 @@
         <h4><span>{{selectedHouse?.owner}}</span></h4>
       </div>
     </div>
+
     <div class="row">
       <div class="col-xs-12 text-center">
-        <img src="{{selectedHouse?.imagePath}}" alt="Podgląd" class="img-rounded" style="height: 250px;">
+        <img src="{{selectedHouse?.imagePath}}" alt="Podgląd" class="img-rounded" style="width: 290px;">
       </div>
     </div>
   </div>
+
   <div class="col-xs-7">
+    <div class="row">
+      <div class="col-xs-6">
+        <h4><span class="label label-default">Czujniki temperatur</span></h4>
+      </div>
+
+      <div class="col-xs-6 text-right">
+        <button class="btn btn-primary" (click)="onAddSensor()">Dodaj</button>
+        <button class="btn btn-success">Wyślij</button>
+      </div>
+    </div>
     <app-temp-sensor-list></app-temp-sensor-list>
+
+    <br>
+
+    <div class="row">
+      <div class="col-xs-6">
+        <h4><span class="label label-default">Źródła światła</span></h4>
+      </div>
+
+      <div class="col-xs-6 text-right">
+        <button class="btn btn-primary" (click)="onAddLight()">Dodaj</button>
+        <button class="btn btn-success">Wyślij</button>
+      </div>
+    </div>
+    <app-light-list></app-light-list>
   </div>
 </div>
 <hr>

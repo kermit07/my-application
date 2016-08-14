@@ -2,7 +2,6 @@
 // Project: https://github.com/mrdoob/three.js/blob/master/examples/js/controls/TrackballControls.js
 // Definitions by: Satoru Kimura <https://github.com/gyohk>
 // Definitions: https://github.com/borisyankov/DefinitelyTyped
-// TODO
 
 declare module THREE {
 
@@ -39,9 +38,9 @@ declare module THREE {
 
     getDirection():THREE.Vector3;
 
-    getMovieDirection():THREE.Vector3;
+    getMoveDirection():THREE.Vector3;
 
-    setCollisions():void;
+    setCollisions(collisions:boolean[]):void;
 
     updateAll(delta:number):boolean;
 

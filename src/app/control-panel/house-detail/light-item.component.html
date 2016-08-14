@@ -1,0 +1,43 @@
+<div id="my-root" class="list-group-item clearfix">
+  <div class="row">
+    <div class="col-xs-3">
+      <div class="input-group-btn" app-dropdown>
+        <a role="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+           aria-expanded="false" style="width: 100%; padding: 4px 6px;">
+          <span class="glyphicon glyphicon-stop" aria-hidden="true" [style.color]="light.color"></span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" style="min-width: 100%; margin: 0 0 0">
+          <li *ngFor="let item of lightKinds">
+            <a role="button" class="btn btn-default btn-lg" (click)="onChangeColor(item)">
+              <span class="glyphicon glyphicon-stop" aria-hidden="true" [style.color]="item"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div class="input-group">
+        <span class="input-group-addon">X</span>
+        <input type="number" step="0.01" class="form-control" [(ngModel)]="light.xPos" #xPos
+               (change)="mkFixed(xPos, 2)">
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div class="input-group">
+        <span class="input-group-addon">Y</span>
+        <input type="number" step="0.01" class="form-control" [(ngModel)]="light.yPos" #yPos
+               (change)="mkFixed(yPos, 2)">
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div class="input-group">
+        <span class="input-group-addon">Z</span>
+        <input type="number" step="0.01" class="form-control" [(ngModel)]="light.zPos" #zPos
+               (change)="mkFixed(zPos, 2)">
+      </div>
+    </div>
+
+    <button id="del-button" class="btn btn-danger btn-xs" type="button" (click)="onDelete()">x</button>
+  </div>
+</div>

@@ -6,12 +6,14 @@ import {House} from "../../shared/house";
 import {ControlPanelService} from "../control-panel.service";
 import {TempSensorListComponent} from "./temp-sensor-list.component";
 import {TempSensor} from "../../shared/temp-sensor";
+import {LightListComponent} from "./light-list.component";
+import {Light} from "../../shared/light";
 
 @Component({
   moduleId: module.id,
   selector: 'app-house-detail',
   templateUrl: 'house-detail.component.html',
-  directives: [TempSensorListComponent]
+  directives: [TempSensorListComponent, LightListComponent]
 })
 export class HouseDetailComponent implements OnInit, OnDestroy {
   private selectedHouse:House;
@@ -47,5 +49,9 @@ export class HouseDetailComponent implements OnInit, OnDestroy {
 
   onAddSensor() {
     this.selectedHouse.tempSensors.push(new TempSensor(20, 0, 0, 0));
+  }
+
+  onAddLight() {
+    this.selectedHouse.lights.push(new Light(this.controlPanelService.getLightKinds()[0], 0, 0, 0));
   }
 }

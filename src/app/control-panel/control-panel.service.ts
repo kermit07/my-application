@@ -1,48 +1,58 @@
-import {Injectable, EventEmitter} from '@angular/core';
+import {Injectable, EventEmitter} from "@angular/core";
 import {Headers, Http, Response} from "@angular/http";
-
 import {House} from "../shared/house";
 import {TempSensor} from "../shared/temp-sensor";
+import {Light,} from "../shared/light";
 
 @Injectable()
 export class ControlPanelService {
   housesChange = new EventEmitter<House[]>();
 
+  private lightKinds:String[] = [
+    "#ffff00",
+    "#ff0000",
+    "#00ff00",
+    "#0000ff"
+  ]
+
   private houses:House[] = [
-    new House('Project 1', 'Maciek', 'https://www.uktights.com/tightsimages/products/normal/gi_OTK-Double-Stripe-Tights.jpg', [
+    new House('Project 1', 'Maciek', './my-house-1.png', [
       new TempSensor(24, 1, 3, 5),
-      new TempSensor(22, 2, 5, 6),
-      new TempSensor(25, 4, 1, 1),
-      new TempSensor(23.2, 11, 2, 7),
-      new TempSensor(21.23, 7, 33, 56),
       new TempSensor(25.12, 16, 7, 4),
       new TempSensor(19.03, 5, 5, 53),
       new TempSensor(3.12, 7, 3, 52)
+    ], [
+      new Light(this.lightKinds[0], 2, 4, 3),
+      new Light(this.lightKinds[2], 1, 4, 5)
     ]),
-    new House('Project 2', 'Ja', 'http://thumbs.ebaystatic.com/images/g/wl0AAOSwbwlXBlQu/s-l225.jpg', []),
-    new House('Project 3', 'Mistrz', 'https://www.uktights.com/tightsimages/products/normal/pm_Floral-Suspender-Tights.jpg', [])
+    new House('Project 2', 'Ja', 'http://thumbs.ebaystatic.com/images/g/wl0AAOSwbwlXBlQu/s-l225.jpg', [], []),
+    new House('Project 3', 'Mistrz', 'https://www.uktights.com/tightsimages/products/normal/pm_Floral-Suspender-Tights.jpg', [], [])
   ];
 
   constructor(private http:Http) {
   }
 
-  getHouses() {
+  getLightKinds():String[] {
+    return this.lightKinds;
+  }
+
+  getHouses():House[] {
     return this.houses;
   }
 
-  getHouse(houseIndex:number) {
+  getHouse(houseIndex:number):House {
     return this.houses[houseIndex];
   }
 
-  deleteHouse(house:House) {
+  deleteHouse(house:House):void {
     this.houses.splice(this.houses.indexOf(house), 1);
   }
 
-  addHouse(house:House) {
+  addHouse(house:House):void {
     this.houses.push(house);
   }
 
-  editHouse(oldHouse:House, newHouse:House) {
+  editHouse(oldHouse:House, newHouse:House):void {
     this.houses[this.houses.indexOf(oldHouse)] = newHouse;
   }
 

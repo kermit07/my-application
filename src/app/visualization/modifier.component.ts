@@ -13,7 +13,6 @@ export class ModifierComponent implements OnInit{
 
   ngOnInit() {
     this.renderService = new RenderService(this.container, this.panel);
-    this.renderService.init();
   }
 
 }

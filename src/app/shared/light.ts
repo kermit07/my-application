@@ -1,5 +1,6 @@
-export class TempSensor {
-  constructor(public value:number,
+
+export class Light {
+  constructor(public color:String,
               public xPos:number,
               public yPos:number,
               public zPos:number) {

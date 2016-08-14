@@ -1,0 +1,29 @@
+.list-group-item {
+  padding: 2px 15px;
+}
+
+#del-button {
+  margin-top: 6px;
+  width: 4%;
+  padding: 0px 0px;
+}
+
+.input-group {
+  width: 100%;
+}
+
+.input-group .input-group-addon {
+  padding: 6px 3px;
+}
+
+.input-group .form-control {
+  padding: 6px 4px;
+  min-width: 60px;
+}
+
+.col-xs-3 {
+  padding-left: 2px;
+  padding-right: 10px;
+  width: 24%;
+}
+

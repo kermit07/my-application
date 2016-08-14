@@ -1,52 +1,31 @@
-<div class="list-group-item clearfix">
+<div id="my-root" class="list-group-item clearfix">
   <div class="row">
-    <div class="col-xs-10">
-      <div class=" input-group" style="width: 100%;">
-        <span class="input-group-addon" id="basic-addon1">Temperatura</span>
-        <input type="text" class="form-control" aria-label="..." [(ngModel)]="tempSensor.value">
-        <div class="input-group-btn">
-          <button type="button" class="btn btn-default" (click)="onMinusTemp()">-</button>
-          <button type="button" class="btn btn-default" (click)="onPlusTemp()">+</button>
-        </div>
+
+    <div class="col-xs-3">
+      <div class="input-group">
+        <span class="input-group-addon"><sup>o</sup>C</span>
+        <input type="number" step="0.1" class="form-control" [(ngModel)]="tempSensor.value" #value (change)="mkFixed(value, 1)">
       </div>
     </div>
-    <div class="col-xs-2">
-      <button><span class="glyphicon glyphicon-trash" aria-hidden="true" (click)="onDelete()"></span></button>
-    </div>
-  </div>
-  <br>
-  <div class="row">
-    <div class="col-xs-4">
-      <span class="input-group-addon" id="basic-addon1">X</span>
-      <div class="input-group-btn">
-        <button type="button" class="btn btn-default" (click)="onMinusXPos()">-</button>
-        <button type="button" class="btn btn-default" (click)="onPlusXPos()">+</button>
+    <div class="col-xs-3">
+      <div class="input-group">
+        <span class="input-group-addon">X</span>
+        <input type="number" step="0.01" class="form-control" [(ngModel)]="tempSensor.xPos" #xPos (change)="mkFixed(xPos, 2)">
       </div>
     </div>
-    <div class="col-xs-4">
-      <span class="input-group-addon" id="basic-addon1">Y</span>
-      <div class="input-group-btn">
-        <button type="button" class="btn btn-default" (click)="onMinusYPos()">-</button>
-        <button type="button" class="btn btn-default" (click)="onPlusYPos()">+</button>
+    <div class="col-xs-3">
+      <div class="input-group">
+        <span class="input-group-addon">Y</span>
+        <input type="number" step="0.01" class="form-control" [(ngModel)]="tempSensor.yPos" #yPos (change)="mkFixed(yPos, 2)">
       </div>
     </div>
-    <div class="col-xs-4">
-      <span class="input-group-addon" id="basic-addon1">Z</span>
-      <div class="input-group-btn">
-        <button type="button" class="btn btn-default" (click)="onMinusZPos()">-</button>
-        <button type="button" class="btn btn-default" (click)="onPlusZPos()">+</button>
+    <div class="col-xs-3">
+      <div class="input-group">
+        <span class="input-group-addon">Z</span>
+        <input type="number" step="0.01" class="form-control" [(ngModel)]="tempSensor.zPos" #zPos (change)="mkFixed(zPos, 2)">
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-4">
-      <input type="text" class="form-control text-center" aria-label="..." [(ngModel)]="tempSensor.xPos">
-    </div>
-    <div class="col-xs-4">
-      <input type="text" class="form-control text-center" aria-label="..." [(ngModel)]="tempSensor.yPos">
-    </div>
-    <div class="col-xs-4">
-      <input type="text" class="form-control text-center" aria-label="..." [(ngModel)]="tempSensor.zPos">
-    </div>
+
+    <button id="del-button" class="btn btn-danger btn-xs" type="button" (click)="onDelete()">X</button>
   </div>
 </div>
