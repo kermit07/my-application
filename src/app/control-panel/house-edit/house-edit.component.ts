@@ -1,9 +1,8 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs/Rx";
 import {FORM_PROVIDERS} from "@angular/common";
 import {FormGroup, Validators, FormBuilder, REACTIVE_FORM_DIRECTIVES} from "@angular/forms";
-
 import {ControlPanelService} from "../control-panel.service";
 import {House} from "../../shared/house";
 
@@ -31,14 +30,15 @@ export class HouseEditComponent implements OnInit, OnDestroy {
     this.isNew = true;
     this.routeSub = this.route.params.subscribe(
       (params:any) => {
+        this.isNew = true;
+        this.house = null;
+
         if (params.hasOwnProperty('id')) {
           this.isNew = false;
           this.houseIndex = +params['id'];
           this.house = this.service.getHouse(this.houseIndex);
-        } else {
-          this.isNew = true;
-          this.house = null;
         }
+
         this.initForm();
       }
     );
@@ -68,8 +68,8 @@ export class HouseEditComponent implements OnInit, OnDestroy {
   }
 
   onCancel() {
-    this.router.navigate(['/control-panel']);
-}
+    this.router.navigate(['/control-panel', this.houseIndex]);
+  }
 
   private initForm() {
     let houseName = '';

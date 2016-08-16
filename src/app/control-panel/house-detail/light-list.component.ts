@@ -1,7 +1,6 @@
 import {Component, OnInit, OnDestroy} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs/Rx";
-
 import {House} from "../../shared/house";
 import {Light} from "../../shared/light";
 import {ControlPanelService} from "../control-panel.service";
@@ -17,6 +16,7 @@ export class LightListComponent implements OnInit, OnDestroy {
   private routeSub:Subscription;
   private housesSub:Subscription;
   private houseIndex:number;
+  private house:House;
   private lights:Light[];
 
   constructor(private router:Router,
@@ -28,20 +28,22 @@ export class LightListComponent implements OnInit, OnDestroy {
     this.routeSub = this.route.params.subscribe(
       (params:any) => {
         this.houseIndex = +params['id'];
-        let house = this.service.getHouse(this.houseIndex);
+        this.house = this.service.getHouse(this.houseIndex);
+        this.lights = [];
 
         // back to control-panel view if not found house in service database
-        if (house == undefined) {
+        if (this.house == undefined) {
           this.router.navigate(['/control-panel']);
           return;
         }
 
-        this.lights = house.lights;
+        this.lights = this.house.lights;
       }
     );
     this.housesSub = this.service.housesChange.subscribe(
       (houses:House[]) => {
-        this.lights = houses[this.houseIndex].lights;
+        this.house = houses[this.houseIndex];
+        this.lights = this.house.lights;
       }
     )
   }
@@ -53,5 +55,10 @@ export class LightListComponent implements OnInit, OnDestroy {
 
   onAddLight() {
     this.lights.push(new Light(this.service.getLightKinds()[0], 0, 0, 0));
+    this.house.lights = this.lights;
+  }
+
+  onSendLights() {
+    this.service.editHouse(this.houseIndex, this.house);
   }
 }

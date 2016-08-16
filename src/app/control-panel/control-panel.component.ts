@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from "@angular/core";
 import {ROUTER_DIRECTIVES} from "@angular/router";
-
 import {HouseListComponent} from "./house-list";
 
 @Component({
@@ -10,5 +9,4 @@ import {HouseListComponent} from "./house-list";
   directives: [HouseListComponent, ROUTER_DIRECTIVES]
 })
 export class ControlPanelComponent {
-
 }

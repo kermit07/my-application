@@ -11,24 +11,22 @@ import {ControlPanelService} from "../control-panel.service";
   directives: [HouseItemComponent, ROUTER_DIRECTIVES]
 })
 export class HouseListComponent implements OnInit {
-  housesChange = new EventEmitter<House[]>();
   houses:House[] = [];
 
-  constructor(private controlPanelService:ControlPanelService) {
+  constructor(private service:ControlPanelService) {
   }
 
   ngOnInit() {
     this.houses = [];
-    this.controlPanelService.housesChange.subscribe(
+    this.service.housesChange.subscribe(
       (houses:House[]) => {
         this.houses = houses;
-        this.housesChange.emit(this.houses);
       }
     );
     this.onRefreshList();
   }
 
   onRefreshList() {
-    this.controlPanelService.fetchData();
+    this.service.fetchData();
   }
 }

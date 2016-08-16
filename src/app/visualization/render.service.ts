@@ -3,9 +3,14 @@ import {ControlPanelService} from "../control-panel/control-panel.service";
 import {TempSensor} from "../shared/temp-sensor";
 import {House} from "../shared/house";
 import {Subscription} from "rxjs/Rx";
+import {Router} from "@angular/router";
+import {RenderConfig, ModifierComponent} from "./modifier.component";
+import {EventEmitter} from "@angular/core";
 
 export class RenderService {
+  private static ID = 0;
   private go = true;
+  private isNight = false;
   private utils:RenderUtils;
   private camera:THREE.PerspectiveCamera;
   private scene:THREE.Scene;
@@ -23,17 +28,32 @@ export class RenderService {
   private refreshDataInterval = 5;              // okres czasu w sekundach co który aktualizujemy dane z bazą
   private house:House;                          // dane wizualizowanego domu
   private subscribtion:Subscription;            // subskrybcja zmian danych w bazie - na koniec odsubskrybowana
+  private subscribtion2:Subscription;           // subskrybcja zmian danych konfiguracji
 
+  constructor(private container:HTMLElement,
+              private panel:HTMLElement,
+              private modifier:ModifierComponent) {
 
-  constructor(private container:HTMLElement, private panel:HTMLElement, private service:ControlPanelService) {
     this.utils = new RenderUtils();
-    this.house = this.service.getHouse(0);
-    this.subscribtion = this.service.housesChange.subscribe(
+    this.house = this.modifier.service.getHouse(RenderService.ID);
+
+    this.subscribtion = this.modifier.service.housesChange.subscribe(
       (houses:House[]) => {
-        this.house = houses[0];
+        this.house = houses[RenderService.ID];
         this.updateSensorsData();
       }
     );
+
+    this.subscribtion2 = this.modifier.configChange.subscribe(
+      (data:RenderConfig) => {
+        this.updateRenderConfig(data.night, data.transparent);
+      }
+    )
+
+    if (this.house == undefined) {
+      this.modifier.router.navigate(['/control-panel']);
+      return;
+    }
 
     // creating camera
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 500000);
@@ -101,24 +121,42 @@ export class RenderService {
 
     this.loadPointerLock();
 
+    this.addLights();
     this.addGroundAndSky();
     this.updateSensorsData(); // index as argument TODO
-    this.drawLights();
-
-    // Lights
-    const ambientLight = new THREE.AmbientLight(0xcccccc);
-    this.scene.add(ambientLight);
-
-    const pointLight = new THREE.PointLight(0xffffff);
-    pointLight.position.set(300, 0, 300);
-    this.scene.add(pointLight);
+    this.mkLight(3, 5, -5.5, "");
 
     // start animation
     this.animate();
 
-    window.addEventListener('keydown', _ => this.onKeyDown, false);
     // bind to window resizes
     window.addEventListener('resize', _ => this.onResize, true);
+  }
+
+  private addLights() {
+    // LIGHTS
+    this.hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+    this.hemiLight.color.setHSL(0.6, 1, 0.6);
+    this.hemiLight.groundColor.setHSL(0.095, 1, 0.75);
+    this.hemiLight.position.set(0, 500, 0);
+    this.scene.add(this.hemiLight);
+    //
+    this.dirLight = new THREE.DirectionalLight(0xffffff, 1);
+    this.dirLight.color.setHSL(0.1, 1, 0.95);
+    this.dirLight.position.set(100, 100, 100);
+    //dirLight.position.multiplyScalar( 50 );
+    this.scene.add(this.dirLight);
+
+    this.dirLight.castShadow = true;
+    this.dirLight.shadow.mapSize.width = 4096;
+    this.dirLight.shadow.mapSize.height = 4096;
+    var d = 50;
+    this.dirLight.shadow.camera.left = -d;
+    this.dirLight.shadow.camera.right = d;
+    this.dirLight.shadow.camera.top = d;
+    this.dirLight.shadow.camera.bottom = -d;
+    this.dirLight.shadow.camera.far = 3500;
+    //dirLight.shadowCameraVisible = true;
   }
 
   private addGroundAndSky():void {
@@ -145,6 +183,7 @@ export class RenderService {
       offset: {type: "f", value: 33},
       exponent: {type: "f", value: 0.6}
     };
+    uniforms.topColor.value.copy(this.hemiLight.color);
     this.scene.fog.color.copy(uniforms.bottomColor.value);
     var skyGeo = new THREE.SphereGeometry(4000, 32, 15);
     var skyMat = new THREE.ShaderMaterial({
@@ -162,7 +201,7 @@ export class RenderService {
       this.scene.remove(sensor.aureole);
       this.scene.remove(sensor.digits);
     }
-    if(this.house.hasOwnProperty("tempSensors"))
+    if (this.house.hasOwnProperty("tempSensors"))
       this.sensors = this.mkSensors(this.house.tempSensors);
   }
 
@@ -236,13 +275,49 @@ export class RenderService {
     }
   }
 
-  private drawLights() {
-    // TODO
+  private mkLight(xPos, yPos, zPos, color) {
+    let points = [];
+    let points2 = [];
+
+    for (var i = 0; i < 40; i++) {
+      if (i < 10)
+        points.push(new THREE.Vector2((Math.sin(i / 100)), i / 100));
+      else
+        points2.push(new THREE.Vector2((Math.sin(i / 100)), i / 100));
+    }
+
+
+    let geometry = new THREE.LatheGeometry(points, 50, 2, Math.PI * 2);
+    let material = new THREE.MeshPhongMaterial({
+      color: 0x156289,
+      emissive: 0x072534,
+      side: THREE.DoubleSide,
+      shading: THREE.FlatShading
+    });
+    let mesh = new THREE.Mesh(geometry, material);
+    mesh.castShadow = true;
+
+    mesh.position.set(xPos, yPos, zPos);
+    this.scene.add(mesh);
+
+    var light = new THREE.SpotLight(color, 2);
+    light.angle = 0.6;
+    light.penumbra = 1;
+    light.decay = 0;
+    light.distance = 10;
+    light.castShadow = true;
+    light.shadow.mapSize.width = 1024;
+    light.shadow.mapSize.height = 1024;
+    light.position.set(xPos, yPos, zPos);
+    this.scene.add(light);
+    var lightHelper = new THREE.SpotLightHelper(light);
+    this.scene.add(lightHelper);
+
   }
 
   private updateData(delta) {
     if (delta > this.refreshDataInterval) {
-      this.service.getFirebaseHouse(0);
+      this.modifier.service.getFirebaseHouse(RenderService.ID);
       console.log("Send request... " + delta.toFixed(1));
       this.prevRefresh = performance.now();
     }
@@ -316,17 +391,6 @@ export class RenderService {
       collisions[5] = true;	// move down
 
     this.controls.setCollisions(collisions);
-  }
-
-  private onKeyDown = (ev:KeyboardEvent) => {
-    switch (ev.keyCode) {
-      case 84: // T
-        //makeTransparent(!transparent);
-        break;
-      case 78: // N
-        //makeNight(!isNight);
-        break;
-    }
   }
 
   private onResize = () => {
@@ -414,8 +478,24 @@ export class RenderService {
   private changeCamera() {
   }
 
+  private updateRenderConfig(night, transparent):void {
+    if (night) {
+      console.log("makeNight");
+      this.hemiLight.color.setHSL(0.64, 0.2, 0.1);
+      this.hemiLight.groundColor.setHSL(0, 0, 0);
+      this.dirLight.color.setHSL(0, 0, 0);
+    }
+    else {
+      console.log("makeDay");
+      this.hemiLight.color.setHSL(0.6, 1, 0.6);
+      this.hemiLight.groundColor.setHSL(0.095, 1, 0.75);
+      this.dirLight.color.setHSL(0.1, 1, 0.95);
+    }
+  }
+
   public onDestroy() {
     this.subscribtion.unsubscribe();
+    this.subscribtion2.unsubscribe();
     this.go = false;
   }
 
