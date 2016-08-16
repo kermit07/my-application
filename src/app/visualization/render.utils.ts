@@ -100,7 +100,7 @@ export class RenderUtils {
     this.tempToRgb.push(new TempRgb(-10, "#b7c9ff"));
   }
 
-  public getSensorArray():TempSensor[] {
+  public getSensorssssArray():TempSensor[] {
     let result:TempSensor[] = [];
     result.push(new TempSensor(23.7, 6.3, 2.5, -1.3));
     result.push(new TempSensor(22.2, -0.5, 2.5, -2.5));

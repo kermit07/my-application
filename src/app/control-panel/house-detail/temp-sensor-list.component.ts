@@ -1,11 +1,10 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {Component, OnInit, OnDestroy} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs/Rx";
-
-import {TempSensorItemComponent} from "./temp-sensor-item.component";
-import {ControlPanelService} from "../control-panel.service";
-import {TempSensor} from "../../shared/temp-sensor";
 import {House} from "../../shared/house";
+import {TempSensor} from "../../shared/temp-sensor";
+import {ControlPanelService} from "../control-panel.service";
+import {TempSensorItemComponent} from "./temp-sensor-item.component";
 
 @Component({
   moduleId: module.id,
@@ -14,33 +13,41 @@ import {House} from "../../shared/house";
   directives: [TempSensorItemComponent]
 })
 export class TempSensorListComponent implements OnInit, OnDestroy {
-  private subscription:Subscription;
+  private routeSub:Subscription;
+  private subscribtion2:Subscription;
   private houseIndex:number;
-  private tempSensors:TempSensor[];
+  private tempSensors:TempSensor[] = [];
 
-  constructor(private route:ActivatedRoute,
+  constructor(private router:Router,
+              private route:ActivatedRoute,
               private service:ControlPanelService) {
   }
 
   ngOnInit() {
-    this.subscription = this.route.params.subscribe(
+    this.routeSub = this.route.params.subscribe(
       (params:any) => {
-        if (params.hasOwnProperty('id')) {
-          this.houseIndex = +params['id'];
-          let xxx = this.service.getHouse(this.houseIndex);
-          if(xxx.hasOwnProperty('tempSensors')) // TODO
-            this.tempSensors = xxx.tempSensors;
-          else
-            this.tempSensors = [];//this.service.getHouse(this.houseIndex).tempSensors;
-        } else {
-          this.tempSensors = null;
+        this.houseIndex = +params['id'];
+        let house = this.service.getHouse(this.houseIndex);
+
+        // back to control-panel view if not found house in service database
+        if (house == undefined) {
+          this.router.navigate(['/control-panel']);
+          return;
         }
+
+        this.tempSensors = house.tempSensors;
       }
     );
+    this.subscribtion2 = this.service.housesChange.subscribe(
+      (houses:House[]) => {
+        this.tempSensors = houses[this.houseIndex].tempSensors;
+      }
+    )
   }
 
   ngOnDestroy():any {
-    this.subscription.unsubscribe();
+    this.routeSub.unsubscribe();
+    this.subscribtion2.unsubscribe();
   }
 
   onAddSensor() {

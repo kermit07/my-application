@@ -1,7 +1,7 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs/Rx";
-import {FORM_PROVIDERS, Location} from "@angular/common";
+import {FORM_PROVIDERS} from "@angular/common";
 import {FormGroup, Validators, FormBuilder, REACTIVE_FORM_DIRECTIVES} from "@angular/forms";
 
 import {ControlPanelService} from "../control-panel.service";
@@ -18,13 +18,13 @@ export class HouseEditComponent implements OnInit, OnDestroy {
   private houseForm:FormGroup;
   private subscription:Subscription;
   private houseIndex:number;
-  private isNew:boolean;
   private house:House;
+  private isNew:boolean;
 
-  constructor(private route:ActivatedRoute,
+  constructor(private router:Router,
+              private route:ActivatedRoute,
               private service:ControlPanelService,
-              private formBuilder:FormBuilder,
-              private location: Location) {
+              private formBuilder:FormBuilder) {
   }
 
   ngOnInit() {
@@ -49,32 +49,44 @@ export class HouseEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const newHouse = this.houseForm.value;
-    if (this.isNew) {
+    let newHouse:House = this.houseForm.value;
+
+    if(this.isNew) {
+      newHouse.tempSensors = [];
+      newHouse.lights = [];
+
       this.service.addHouse(newHouse);
+
     } else {
-      this.service.editHouse(this.house, newHouse);
+      newHouse.tempSensors = this.house.tempSensors;
+      newHouse.lights = this.house.lights;
+
+      this.service.editHouse(this.houseIndex, newHouse);
     }
-    this.location.back();
+
+    this.onCancel();
   }
 
   onCancel() {
-    this.location.back();
-  }
+    this.router.navigate(['/control-panel']);
+}
 
   private initForm() {
     let houseName = '';
     let houseOwner = '';
+    let houseModelPath = '';
     let houseImgUrl = '';
 
     if (!this.isNew) {
       houseName = this.house.name;
       houseOwner = this.house.owner;
+      houseModelPath = this.house.modelPath;
       houseImgUrl = this.house.imagePath;
     }
     this.houseForm = this.formBuilder.group({
       name: [houseName, Validators.required],
       owner: [houseOwner, Validators.required],
+      modelPath: [houseModelPath, Validators.required],
       imagePath: [houseImgUrl, Validators.required],
     });
   }

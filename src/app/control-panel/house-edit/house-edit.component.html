@@ -3,7 +3,7 @@
   <form [formGroup]="houseForm" (ngSubmit)="onSubmit()">
     <div class="row col-xs-12">
       <button type="submit" class="btn btn-success" [disabled]="!houseForm.valid">Zapisz</button>
-      <button class="btn btn-danger" (click)="onCancel()">Anuluj</button>
+      <input type="button" class="btn btn-danger" (click)="onCancel()" value="Anuluj"/>
     </div>
     <br>
     <br>
@@ -14,6 +14,10 @@
     <div class="row col-xs-12 form-group">
       <label for="owner">Właściciel</label>
       <input type="text" id="owner" class="form-control" formControlName="owner">
+    </div>
+    <div class="row col-xs-12 form-group">
+      <label for="model-path">Model</label>
+      <input type="text" id="model-path" class="form-control" formControlName="modelPath">
     </div>
     <div class="row col-xs-12 form-group">
       <label for="image-url">Zdjęcie</label>

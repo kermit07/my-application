@@ -15,10 +15,7 @@ export class HeaderComponent {
   constructor(private service: ControlPanelService) {};
 
   onStore() {
-    this.service.storeData().subscribe(
-      data => console.log(data),
-      error => console.log(error)
-    );
+    this.service.storeData();
   }
 
   onFetch() {

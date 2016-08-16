@@ -1,13 +1,11 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 import {Subscription} from "rxjs/Rx";
-
 import {House} from "../../shared/house";
 import {ControlPanelService} from "../control-panel.service";
 import {TempSensorListComponent} from "./temp-sensor-list.component";
-import {TempSensor} from "../../shared/temp-sensor";
 import {LightListComponent} from "./light-list.component";
-import {Light} from "../../shared/light";
+import {HouseListComponent} from "../house-list/house-list.component";
 
 enum ElemType {TempSensor, Light}
 
@@ -21,26 +19,39 @@ export class HouseDetailComponent implements OnInit, OnDestroy {
   private selectedHouse:House;
   private houseIndex:number;
   private subsribtion:Subscription;
-  private types = ElemType;                    // let to work switch correctly
-  private elemType: ElemType = ElemType.TempSensor;   // real type
+  private subsribtion2:Subscription;
+  private types = ElemType;                           // let to work switch correctly
+  private elemType:ElemType = ElemType.TempSensor;    // real type
 
 
   constructor(private router:Router,
               private route:ActivatedRoute,
-              private controlPanelService:ControlPanelService) {
+              private service:ControlPanelService) {
   }
 
   ngOnInit() {
     this.subsribtion = this.route.params.subscribe(
       (params:any) => {
-        this.houseIndex = params['id'];
-        this.selectedHouse = this.controlPanelService.getHouse(this.houseIndex);
+        this.houseIndex = +params['id'];
+
+        if(this.service.getHouse(this.houseIndex) == undefined) {
+          this.router.navigate(['/control-panel']);
+          return;
+        }
+
+        this.selectedHouse = this.service.getHouse(this.houseIndex);
       }
     );
+    this.subsribtion2 = this.service.housesChange.subscribe(
+      (houses:House[]) => {
+        this.selectedHouse = houses[this.houseIndex];
+      }
+    )
   }
 
   ngOnDestroy() {
     this.subsribtion.unsubscribe();
+    this.subsribtion2.unsubscribe();
   }
 
   onEdit() {
@@ -48,7 +59,8 @@ export class HouseDetailComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    this.controlPanelService.deleteHouse(this.houseIndex);
+    if(window.confirm("Czy na pewno chcesz usunąć?"))
+      this.service.deleteHouse(this.houseIndex);
     this.router.navigate(['/control-panel']);
   }
 }

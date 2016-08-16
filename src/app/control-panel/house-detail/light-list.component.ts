@@ -1,8 +1,9 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy} from "@angular/core";
 import {Subscription} from "rxjs/Rx";
-import {ActivatedRoute} from "@angular/router";
-import {ControlPanelService} from "../control-panel.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {House} from "../../shared/house";
 import {Light} from "../../shared/light";
+import {ControlPanelService} from "../control-panel.service";
 import {LightItemComponent} from "./light-item.component";
 
 @Component({
@@ -13,37 +14,44 @@ import {LightItemComponent} from "./light-item.component";
 })
 export class LightListComponent implements OnInit, OnDestroy {
 
-  private subscription:Subscription;
+  private subscribtion:Subscription;
+  private subscribtion2:Subscription;
   private houseIndex:number;
   private lights:Light[];
 
-  constructor(private route:ActivatedRoute,
+  constructor(private router:Router,
+              private route:ActivatedRoute,
               private service:ControlPanelService) {
   }
 
   ngOnInit() {
-    this.subscription = this.route.params.subscribe(
+    this.subscribtion = this.route.params.subscribe(
       (params:any) => {
-        if (params.hasOwnProperty('id')) {
-          this.houseIndex = +params['id'];
-          let xxx = this.service.getHouse(this.houseIndex);
-          if(xxx.hasOwnProperty('lights')) // TODO
-            this.lights = xxx.lights;
-          else
-            this.lights = [];//this.service.getHouse(this.houseIndex).tempSensors;
-        } else {
-          this.lights = null;
+        this.houseIndex = +params['id'];
+        let house = this.service.getHouse(this.houseIndex);
+
+        // back to control-panel view if not found house in service database
+        if (house == undefined) {
+          this.router.navigate(['/control-panel']);
+          return;
         }
+
+        this.lights = house.lights;
       }
     );
+    this.subscribtion2 = this.service.housesChange.subscribe(
+      (houses:House[]) => {
+        this.lights = houses[this.houseIndex].lights;
+      }
+    )
   }
 
   ngOnDestroy():any {
-    this.subscription.unsubscribe();
+    this.subscribtion.unsubscribe();
+    this.subscribtion2.unsubscribe();
   }
 
   onAddLight() {
     this.lights.push(new Light(this.service.getLightKinds()[0], 0, 0, 0));
   }
-
 }
