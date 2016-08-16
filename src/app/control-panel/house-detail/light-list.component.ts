@@ -1,6 +1,7 @@
 import {Component, OnInit, OnDestroy} from "@angular/core";
-import {Subscription} from "rxjs/Rx";
 import {ActivatedRoute, Router} from "@angular/router";
+import {Subscription} from "rxjs/Rx";
+
 import {House} from "../../shared/house";
 import {Light} from "../../shared/light";
 import {ControlPanelService} from "../control-panel.service";
@@ -13,9 +14,8 @@ import {LightItemComponent} from "./light-item.component";
   directives: [LightItemComponent]
 })
 export class LightListComponent implements OnInit, OnDestroy {
-
-  private subscribtion:Subscription;
-  private subscribtion2:Subscription;
+  private routeSub:Subscription;
+  private housesSub:Subscription;
   private houseIndex:number;
   private lights:Light[];
 
@@ -25,7 +25,7 @@ export class LightListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscribtion = this.route.params.subscribe(
+    this.routeSub = this.route.params.subscribe(
       (params:any) => {
         this.houseIndex = +params['id'];
         let house = this.service.getHouse(this.houseIndex);
@@ -39,7 +39,7 @@ export class LightListComponent implements OnInit, OnDestroy {
         this.lights = house.lights;
       }
     );
-    this.subscribtion2 = this.service.housesChange.subscribe(
+    this.housesSub = this.service.housesChange.subscribe(
       (houses:House[]) => {
         this.lights = houses[this.houseIndex].lights;
       }
@@ -47,8 +47,8 @@ export class LightListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy():any {
-    this.subscribtion.unsubscribe();
-    this.subscribtion2.unsubscribe();
+    this.routeSub.unsubscribe();
+    this.housesSub.unsubscribe();
   }
 
   onAddLight() {

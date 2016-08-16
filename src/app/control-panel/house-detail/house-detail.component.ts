@@ -5,7 +5,6 @@ import {House} from "../../shared/house";
 import {ControlPanelService} from "../control-panel.service";
 import {TempSensorListComponent} from "./temp-sensor-list.component";
 import {LightListComponent} from "./light-list.component";
-import {HouseListComponent} from "../house-list/house-list.component";
 
 enum ElemType {TempSensor, Light}
 
@@ -18,10 +17,10 @@ enum ElemType {TempSensor, Light}
 export class HouseDetailComponent implements OnInit, OnDestroy {
   private selectedHouse:House;
   private houseIndex:number;
-  private subsribtion:Subscription;
-  private subsribtion2:Subscription;
+  private routeSub:Subscription;
+  private housesSub:Subscription;
   private types = ElemType;                           // let to work switch correctly
-  private elemType:ElemType = ElemType.TempSensor;    // real type
+  private elemType:ElemType = ElemType.TempSensor;    // real type (used in view only)
 
 
   constructor(private router:Router,
@@ -30,7 +29,7 @@ export class HouseDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subsribtion = this.route.params.subscribe(
+    this.routeSub = this.route.params.subscribe(
       (params:any) => {
         this.houseIndex = +params['id'];
 
@@ -42,7 +41,7 @@ export class HouseDetailComponent implements OnInit, OnDestroy {
         this.selectedHouse = this.service.getHouse(this.houseIndex);
       }
     );
-    this.subsribtion2 = this.service.housesChange.subscribe(
+    this.housesSub = this.service.housesChange.subscribe(
       (houses:House[]) => {
         this.selectedHouse = houses[this.houseIndex];
       }
@@ -50,8 +49,8 @@ export class HouseDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subsribtion.unsubscribe();
-    this.subsribtion2.unsubscribe();
+    this.routeSub.unsubscribe();
+    this.housesSub.unsubscribe();
   }
 
   onEdit() {

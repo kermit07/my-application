@@ -16,7 +16,7 @@ import {House} from "../../shared/house";
 })
 export class HouseEditComponent implements OnInit, OnDestroy {
   private houseForm:FormGroup;
-  private subscription:Subscription;
+  private routeSub:Subscription;
   private houseIndex:number;
   private house:House;
   private isNew:boolean;
@@ -29,7 +29,7 @@ export class HouseEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isNew = true;
-    this.subscription = this.route.params.subscribe(
+    this.routeSub = this.route.params.subscribe(
       (params:any) => {
         if (params.hasOwnProperty('id')) {
           this.isNew = false;
@@ -45,7 +45,7 @@ export class HouseEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy():any {
-    this.subscription.unsubscribe();
+    this.routeSub.unsubscribe();
   }
 
   onSubmit() {

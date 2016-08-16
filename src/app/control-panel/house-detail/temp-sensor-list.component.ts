@@ -1,6 +1,7 @@
 import {Component, OnInit, OnDestroy} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs/Rx";
+
 import {House} from "../../shared/house";
 import {TempSensor} from "../../shared/temp-sensor";
 import {ControlPanelService} from "../control-panel.service";
@@ -14,9 +15,9 @@ import {TempSensorItemComponent} from "./temp-sensor-item.component";
 })
 export class TempSensorListComponent implements OnInit, OnDestroy {
   private routeSub:Subscription;
-  private subscribtion2:Subscription;
+  private housesSub:Subscription;
   private houseIndex:number;
-  private tempSensors:TempSensor[] = [];
+  private tempSensors:TempSensor[];
 
   constructor(private router:Router,
               private route:ActivatedRoute,
@@ -38,7 +39,7 @@ export class TempSensorListComponent implements OnInit, OnDestroy {
         this.tempSensors = house.tempSensors;
       }
     );
-    this.subscribtion2 = this.service.housesChange.subscribe(
+    this.housesSub = this.service.housesChange.subscribe(
       (houses:House[]) => {
         this.tempSensors = houses[this.houseIndex].tempSensors;
       }
@@ -47,7 +48,7 @@ export class TempSensorListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy():any {
     this.routeSub.unsubscribe();
-    this.subscribtion2.unsubscribe();
+    this.housesSub.unsubscribe();
   }
 
   onAddSensor() {

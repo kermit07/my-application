@@ -12,7 +12,7 @@ import {House} from "../../shared/house";
   styleUrls: ['item.component.css']
 })
 export class TempSensorItemComponent implements OnInit, OnDestroy {
-  private subsribtion:Subscription;
+  private routeSub:Subscription;
   private selectedHouse:House;
   @Input() tempSensor:TempSensor;
   @Input() index:number;
@@ -23,7 +23,7 @@ export class TempSensorItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subsribtion = this.route.params.subscribe(
+    this.routeSub = this.route.params.subscribe(
       (params:any) => {
         let houseIndex = params['id'];
         this.selectedHouse = this.service.getHouse(houseIndex);
@@ -32,7 +32,7 @@ export class TempSensorItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subsribtion.unsubscribe();
+    this.routeSub.unsubscribe();
   }
 
   onDelete() {

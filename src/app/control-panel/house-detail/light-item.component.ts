@@ -14,7 +14,7 @@ import {DropdownDirective} from "../../dropdown.directive";
   directives: [DropdownDirective]
 })
 export class LightItemComponent implements OnInit, OnDestroy {
-  private subsribtion:Subscription;
+  private routeSub:Subscription;
   private selectedHouse:House;
   private lightKinds:String[];
   @Input() light:Light;
@@ -27,7 +27,7 @@ export class LightItemComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.lightKinds = this.service.getLightKinds();
-    this.subsribtion = this.route.params.subscribe(
+    this.routeSub = this.route.params.subscribe(
       (params:any) => {
         let houseIndex = params['id'];
         this.selectedHouse = this.service.getHouse(houseIndex);
@@ -36,7 +36,7 @@ export class LightItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subsribtion.unsubscribe();
+    this.routeSub.unsubscribe();
   }
 
   onDelete() {
