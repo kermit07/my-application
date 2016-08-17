@@ -1,11 +1,8 @@
 import {RenderUtils} from "./render.utils";
-import {ControlPanelService} from "../control-panel/control-panel.service";
 import {TempSensor} from "../shared/temp-sensor";
 import {House} from "../shared/house";
 import {Subscription} from "rxjs/Rx";
-import {Router} from "@angular/router";
 import {RenderConfig, ModifierComponent} from "./modifier.component";
-import {EventEmitter} from "@angular/core";
 
 export class RenderService {
   private static ID = 0;
@@ -76,6 +73,8 @@ export class RenderService {
     this.container.appendChild(this.renderer.domElement);
     this.renderer.gammaInput = true;
     this.renderer.gammaOutput = true;
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.renderReverseSided = false;
 
     // creating controls
     this.controls = new THREE.PointerLockControls(this.camera);
@@ -103,6 +102,7 @@ export class RenderService {
   private loadColladaModel = (collada) => {
     let model = collada.scene;
     model.traverse(this.searchMeshes);
+    // TODO this.colladaModel = model;
     this.scene.add(model);
     this.init();
   }
@@ -112,6 +112,8 @@ export class RenderService {
       this.colladaMeshes.push(node);
       node.castShadow = true;
       node.receiveShadow = true;
+      node.geometry.computeFaceNormals();
+      node.material.shading = THREE.FlatShading;
     }
   }
 
@@ -123,7 +125,7 @@ export class RenderService {
 
     this.addLights();
     this.addGroundAndSky();
-    this.updateSensorsData(); // index as argument TODO
+    this.updateSensorsData();
     this.mkLight(3, 5, -5.5, "");
 
     // start animation
@@ -175,9 +177,9 @@ export class RenderService {
     this.scene.add(ground);
 
     // SKYDOME
-    var vertexShader = document.getElementById('vertexShader').textContent;
-    var fragmentShader = document.getElementById('fragmentShader').textContent;
-    var uniforms = {
+    let vertexShader = document.getElementById('vertexShader').textContent;
+    let fragmentShader = document.getElementById('fragmentShader').textContent;
+    let uniforms = {
       topColor: {type: "c", value: new THREE.Color(0x0077ff)},
       bottomColor: {type: "c", value: new THREE.Color(0xffffff)},
       offset: {type: "f", value: 33},
@@ -185,14 +187,14 @@ export class RenderService {
     };
     uniforms.topColor.value.copy(this.hemiLight.color);
     this.scene.fog.color.copy(uniforms.bottomColor.value);
-    var skyGeo = new THREE.SphereGeometry(4000, 32, 15);
-    var skyMat = new THREE.ShaderMaterial({
+    let skyGeo = new THREE.SphereGeometry(4000, 32, 15);
+    let skyMat = new THREE.ShaderMaterial({
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       uniforms: uniforms,
       side: THREE.BackSide
     });
-    var sky = new THREE.Mesh(skyGeo, skyMat);
+    let sky = new THREE.Mesh(skyGeo, skyMat);
     this.scene.add(sky);
   }
 
