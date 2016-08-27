@@ -6,9 +6,7 @@ import {APP_ROUTES_PROVIDERS} from "./app/app.routes";
 
 import { AppComponent, environment } from './app/';
 
-if (environment.production) {
-  enableProdMode();
-}
+enableProdMode();
 
 bootstrap(AppComponent, [
   APP_ROUTES_PROVIDERS,
