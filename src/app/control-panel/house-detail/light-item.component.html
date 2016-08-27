@@ -4,12 +4,12 @@
       <div class="input-group-btn" app-dropdown>
         <a role="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
            aria-expanded="false" style="width: 100%; padding: 4px 6px;">
-          <span class="glyphicon glyphicon-stop" aria-hidden="true" [style.color]="light.color"></span>
+          <span class="glyphicon glyphicon-stop" aria-hidden="true" [style.color]="lightKinds[light.colorIndex]"></span>
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu" style="min-width: 100%; margin: 0 0 0">
-          <li *ngFor="let item of lightKinds">
-            <a role="button" class="btn btn-default btn-lg" (click)="onChangeColor(item)">
+          <li *ngFor="let item of lightKinds; let i = index">
+            <a role="button" class="btn btn-default btn-lg" (click)="onChangeColor(i)">
               <span class="glyphicon glyphicon-stop" aria-hidden="true" [style.color]="item"></span>
             </a>
           </li>

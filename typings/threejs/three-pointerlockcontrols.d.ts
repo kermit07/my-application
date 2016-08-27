@@ -6,7 +6,7 @@
 declare module THREE {
 
   export class PointerLockControls {
-    constructor( object?:Camera );
+    constructor( object?:Camera, parentOnKeyDown?:any );
 
     object:Camera;
     enabled:boolean;

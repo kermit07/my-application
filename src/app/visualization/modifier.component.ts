@@ -18,8 +18,6 @@ export class ModifierComponent implements OnInit, OnDestroy {
   private renderService:RenderService;
   @Input() container:HTMLElement;
   @Input() panel:HTMLElement;
-  renderConfig = new RenderConfig(true, true);
-  configChange = new EventEmitter<RenderConfig>();
 
   constructor(public service:ControlPanelService,
               public router:Router) {
@@ -31,9 +29,5 @@ export class ModifierComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.renderService.onDestroy();
-  }
-
-  onChange() {
-    this.configChange.emit(this.renderConfig);
   }
 }

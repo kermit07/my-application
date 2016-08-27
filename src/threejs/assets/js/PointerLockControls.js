@@ -1,4 +1,4 @@
-THREE.PointerLockControls = function (camera) {
+THREE.PointerLockControls = function (camera, parentOnKeyDown) {
 
   var scope = this;
 
@@ -207,6 +207,9 @@ THREE.PointerLockControls = function (camera) {
         break;
       case 69: // e
         moveUpBtn = true;
+        break;
+      default:
+        parentOnKeyDown(event);
         break;
     }
   }

@@ -28,11 +28,10 @@ export class HouseEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isNew = true;
+    this.house = null;
+
     this.routeSub = this.route.params.subscribe(
       (params:any) => {
-        this.isNew = true;
-        this.house = null;
-
         if (params.hasOwnProperty('id')) {
           this.isNew = false;
           this.houseIndex = +params['id'];
@@ -68,7 +67,10 @@ export class HouseEditComponent implements OnInit, OnDestroy {
   }
 
   onCancel() {
-    this.router.navigate(['/control-panel', this.houseIndex]);
+    if (!this.isNew)
+      this.router.navigate(['/control-panel', this.houseIndex]);
+    else
+      this.router.navigate(['/control-panel']);
   }
 
   private initForm() {

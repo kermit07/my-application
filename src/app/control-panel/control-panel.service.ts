@@ -6,11 +6,11 @@ import {House} from "../shared/house";
 export class ControlPanelService {
   housesChange = new EventEmitter<House[]>();
 
-  private lightKinds:String[] = [
-    "#ffff00",
-    "#ff0000",
-    "#00ff00",
-    "#0000ff"
+  private lightKinds:string[] = [
+    "#FFFF66",
+    "#33FF33",
+    "#FF3333",
+    "#3333FF"
   ]
 
   private houses:House[] = [];
@@ -31,7 +31,7 @@ export class ControlPanelService {
   constructor(private http:Http) {
   }
 
-  getLightKinds():String[] {
+  getLightKinds() {
     return this.lightKinds;
   }
 

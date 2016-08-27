@@ -54,7 +54,7 @@ export class LightListComponent implements OnInit, OnDestroy {
   }
 
   onAddLight() {
-    this.lights.push(new Light(this.service.getLightKinds()[0], 0, 0, 0));
+    this.lights.push(new Light(0, 0, 0, 0));
     this.house.lights = this.lights;
   }
 

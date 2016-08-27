@@ -452,6 +452,16 @@ declare namespace THREE {
      */
     projectionMatrix: Matrix4;
 
+    /**
+     * Camera frustum near plane.
+     */
+    near: number;
+
+    /**
+     * Camera frustum far plane.
+     */
+    far: number;
+
     getWorldDirection(optionalTarget?: Vector3): Vector3;
 
     /**

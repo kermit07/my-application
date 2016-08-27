@@ -47,7 +47,7 @@ export class LightItemComponent implements OnInit, OnDestroy {
     input.value = parseFloat(input.value).toFixed(fixed);
   }
 
-  onChangeColor(color:String) {
-    this.light.color = color;
+  onChangeColor(colorIndex:number) {
+    this.light.colorIndex = colorIndex;
   }
 }
